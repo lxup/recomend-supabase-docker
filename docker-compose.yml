@@ -8,6 +8,32 @@ name: supabase
 version: "3.8"
 
 services:
+  authelia:
+    container_name: authelia
+    image: authelia/authelia
+    restart: unless-stopped
+    expose:
+      - 9091
+    volumes:
+      - ./volumes/authelia/config:/config
+    environment:
+      TZ: 'Europe/Berlin'
+
+  nginx:
+    container_name: nginx
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+    volumes:
+      - ./volumes/nginx-data:/data
+      - ./volumes/nginx-letsencrypt:/etc/letsencrypt
+      - ./volumes/nginx-snippets:/snippets:ro
+    environment:
+      TZ: 'Europe/Berlin'
+
   studio:
     container_name: supabase-studio
     image: supabase/studio:20240729-ce42139
@@ -436,7 +462,7 @@ services:
       retries: 3
     volumes:
       - ./volumes/logs/vector.yml:/etc/vector/vector.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro
     environment:
       LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
     command: [ "--config", "etc/vector/vector.yml" ]
