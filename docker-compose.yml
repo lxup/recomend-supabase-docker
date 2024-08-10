@@ -466,6 +466,22 @@ services:
     environment:
       LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
     command: [ "--config", "etc/vector/vector.yml" ]
+  
+  meilisync:
+    container_name: meilisync
+    platform: linux/x86_64
+    image: long2ice/meilisync
+    volumes:
+      - ./volumes/meilisync/config.yml:/meilisync/config.yml
+    depends_on:
+      - db
+    environment:
+      MEILISEARCH_API_URL: ${MEILISEARCH_API_URL}
+      MEILISEARCH_API_KEY: ${MEILISEARCH_API_KEY}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
 volumes:
   db-config:

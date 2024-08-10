@@ -1,0 +1,49 @@
+debug: true
+plugins:
+  - meilisync.plugin.Plugin
+progress:
+  type: file
+
+meilisearch:
+  api_url: ${MEILISEARCH_API_URL}
+  api_key: ${MEILISEARCH_API_KEY}
+  insert_size: 1000
+  insert_interval: 10
+
+source:
+  type: postgres
+  host: ${POSTGRES_HOST}
+  port: ${POSTGRES_PORT}
+  database: ${POSTGRES_DB}
+  user: postgres
+  password: ${POSTGRES_PASSWORD}
+
+sync:
+  - table: movie
+    index: movies
+    full: true
+    fields:
+      id:
+      adult:
+      backdrop_path:
+      budget:
+      homepage:
+      imdb_id:
+      original_language:
+      original_title:
+      popularity:
+      release_date:
+      revenue:
+      runtime:
+      status:
+      vote_average:
+      vote_count:
+      collection_id:
+      language:
+      overview:
+      poster_path:
+      tagline:
+      title:
+      directors:
+      genres:
+
