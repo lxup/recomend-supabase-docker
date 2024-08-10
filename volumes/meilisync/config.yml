@@ -21,29 +21,30 @@ source:
 sync:
   - table: movie
     index: movies
+    pk: id
     full: true
-    fields:
-      id:
-      adult:
-      backdrop_path:
-      budget:
-      homepage:
-      imdb_id:
-      original_language:
-      original_title:
-      popularity:
-      release_date:
-      revenue:
-      runtime:
-      status:
-      vote_average:
-      vote_count:
-      collection_id:
-      language:
-      overview:
-      poster_path:
-      tagline:
-      title:
-      directors:
-      genres:
+    # fields:
+    #   id:
+    #   adult:
+    #   backdrop_path:
+    #   budget:
+    #   homepage:
+    #   imdb_id:
+    #   original_language:
+    #   original_title:
+    #   popularity:
+    #   release_date:
+    #   revenue:
+    #   runtime:
+    #   status:
+    #   vote_average:
+    #   vote_count:
+    #   collection_id:
+    #   language:
+    #   overview:
+    #   poster_path:
+    #   tagline:
+    #   title:
+    #   directors:
+    #   genres:
 
