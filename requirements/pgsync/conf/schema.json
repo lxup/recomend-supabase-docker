@@ -3,6 +3,11 @@
     {
         "database": "postgres",
         "index": "movies", 
+		"mapping": {
+            "translations": {
+                "type": "nested"
+            }
+        },
         "nodes": {
             "table": "tmdb_movie",
             "schema": "public",
@@ -32,7 +37,7 @@
                         "overview",
                         "language_id"
                     ],
-                    "label": "translation",
+                    "label": "translations",
                     "relationship": {
                         "variant": "object",
                         "type": "one_to_many"
