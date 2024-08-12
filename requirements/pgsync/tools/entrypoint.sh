@@ -6,5 +6,5 @@ wait-for-it $ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT -t 60
 
 jq '.[].database = env.PG_DATABASE' schema.json | sponge schema.json
 
-boostrap --config ./schema.json
+bootstrap --config ./schema.json
 pgsync --config ./schema.json -d
