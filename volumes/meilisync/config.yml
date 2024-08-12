@@ -21,7 +21,6 @@ source:
 sync:
   - table: movie
     index: movies
-    pk: id
     full: true
     # fields:
     #   id:

@@ -466,22 +466,52 @@ services:
     environment:
       LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
     command: [ "--config", "etc/vector/vector.yml" ]
+
+  pgsync-redis:
+    container_name: pgsync-redis
+    image: redis
+    command: redis-server --requirepass ${PGSYNC_REDIS_PASSWORD}
+    ports:
+      - 6379:6379
   
-  meilisync:
-    container_name: meilisync
-    platform: linux/x86_64
-    image: long2ice/meilisync
-    volumes:
-      - ./volumes/meilisync/config.yml:/meilisync/config.yml
+  pgsync:
+    container_name: pgsync
+    build: ./requirements/pgsync
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      pgsync-redis:
+        condition: service_healthy
     environment:
-      MEILISEARCH_API_URL: ${MEILISEARCH_API_URL}
-      MEILISEARCH_API_KEY: ${MEILISEARCH_API_KEY}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      - PG_USER=${POSTGRES_USER}
+      - PG_PASSWORD=${POSTGRES_PASSWORD}
+      - PG_HOST=${POSTGRES_HOST}
+      - PG_PORT=${POSTGRES_PORT}
+      - PG_DATABASE=${POSTGRES_DB}
+      - REDIS_HOST=pgsync-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${PGSYNC_REDIS_PASSWORD}
+      # - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+      - ELASTICSEARCH_PORT=${ELASTICSEARCH_PORT}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
+  
+  
+  # meilisync:
+  #   container_name: meilisync
+  #   platform: linux/x86_64
+  #   image: long2ice/meilisync
+  #   volumes:
+  #     - ./volumes/meilisync/config.yml:/meilisync/config.yml
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     MEILISEARCH_API_URL: ${MEILISEARCH_API_URL}
+  #     MEILISEARCH_API_KEY: ${MEILISEARCH_API_KEY}
+  #     POSTGRES_HOST: ${POSTGRES_HOST}
+  #     POSTGRES_PORT: ${POSTGRES_PORT}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
 volumes:
   db-config:
