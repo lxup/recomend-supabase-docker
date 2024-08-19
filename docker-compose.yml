@@ -470,6 +470,11 @@ services:
   pgsync-redis:
     container_name: pgsync-redis
     image: redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
     command: redis-server --requirepass ${PGSYNC_REDIS_PASSWORD}
     ports:
       - 6379:6379
