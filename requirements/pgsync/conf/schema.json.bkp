@@ -2,8 +2,12 @@
 [
     {
         "database": "postgres",
-        "index": "movies_fr", 
-        "plugins": ["MoviesFr"],
+        "index": "movies", 
+		"mapping": {
+            "translations": {
+                "type": "nested"
+            }
+        },
         "nodes": {
             "table": "tmdb_movie",
             "schema": "public",
@@ -23,11 +27,7 @@
                 "status",
                 "vote_average",
                 "vote_count",
-                "collection_id",
-                "title",
-                "overview",
-                "poster_path",
-                "tagline"
+                "collection_id"
             ],
             "children": [
                 {
@@ -35,18 +35,12 @@
                     "columns": [
                         "title",
                         "overview",
-                        "poster_path",
-                        "tagline",
                         "language_id"
                     ],
                     "label": "translations",
                     "relationship": {
                         "variant": "object",
-                        "type": "one_to_many",
-                        "foreign_key": {
-                            "child": ["movie_id"],
-                            "parent": ["id"]
-                        }
+                        "type": "one_to_many"
                     }
                 }
             ]

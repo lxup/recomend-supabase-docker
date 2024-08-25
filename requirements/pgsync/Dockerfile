@@ -8,9 +8,11 @@ WORKDIR $WORKDIR
 # Copy the requirements file
 COPY ./tools/entrypoint.sh ./entrypoint.sh
 COPY ./conf/schema.json ./schema.json
+COPY ./plugins ./plugins
 
 RUN chmod +x ./entrypoint.sh \
-	&& chmod +x ./schema.json
+	&& chmod +x ./schema.json \
+	&& chmod +x ./plugins
 
 RUN pip install pgsync
 
@@ -19,5 +21,7 @@ RUN apt update \
 		moreutils \
 		jq \
 		wait-for-it
+
+ENV PYTHONPATH=$WORKDIR/plugins
 
 ENTRYPOINT ["sh", "./entrypoint.sh"]
