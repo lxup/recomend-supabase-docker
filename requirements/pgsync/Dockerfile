@@ -22,6 +22,6 @@ RUN apt update \
 		jq \
 		wait-for-it
 
-ENV PYTHONPATH=$WORKDIR/plugins
+ENV PYTHONPATH=$WORKDIR
 
 ENTRYPOINT ["sh", "./entrypoint.sh"]
