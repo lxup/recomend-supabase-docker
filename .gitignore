@@ -1,5 +1,6 @@
 volumes/db/data
 volumes/storage
+volumes/nginx-*/*
 .env
 test.http
 docker-compose.override.yml
